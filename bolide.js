@@ -30,3 +30,18 @@ function disconnectFromBolide() {
 
     bolideFrameElement.innerHTML = ''; // Clear the iframe
 }
+
+async function sendComment(text) {
+    let data = {
+        'comment': text,
+        'is_question': false,
+    }
+
+    await fetch(bolideUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+}
