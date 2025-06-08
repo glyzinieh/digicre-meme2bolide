@@ -150,9 +150,9 @@ async function memeChecker(text) {
 
 
         // 公開版は画像なし
-        case "丸亀製麺":
-            insertImage("./stamps/marugameseimen.png");
-            break;
+        // case "丸亀製麺":
+        //     insertImage("./stamps/marugameseimen.png");
+        //     break;
 
         case "名言":
             insertImage("./stamps/meigen.png");
@@ -215,7 +215,7 @@ async function memeChecker(text) {
 
         default:
             await sleep(5000); // 誤認識で一時的にマッチしないのを防ぐ
-            // clearImage();
+        // clearImage();
     }
 }
 
