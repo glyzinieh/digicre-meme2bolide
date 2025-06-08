@@ -252,10 +252,28 @@ function clearImage() {
 // Web Speech API 設定
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+let recognition = null;
+let isRecognizing = false;
+
+const startBtn = document.getElementById('start-recognition');
+const stopBtn = document.getElementById('stop-recognition');
+
+function updateRecButtons() {
+    if (isRecognizing) {
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+    } else {
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+    }
+}
+
 if (!SpeechRecognition) {
     alert("このブラウザはWeb Speech APIに対応していません。他のブラウザを使用してください。");
+    if (startBtn) startBtn.disabled = true;
+    if (stopBtn) stopBtn.disabled = true;
 } else {
-    const recognition = new SpeechRecognition();
+    recognition = new SpeechRecognition();
     recognition.lang = 'ja-JP';
     recognition.continuous = true;
     recognition.interimResults = true;
@@ -266,6 +284,8 @@ if (!SpeechRecognition) {
 
     recognition.onstart = () => {
         status.textContent = 'ステータス: 音声認識中...';
+        isRecognizing = true;
+        updateRecButtons();
     };
 
     recognition.onresult = (event) => {
@@ -287,12 +307,27 @@ if (!SpeechRecognition) {
     recognition.onerror = (event) => {
         console.error("エラー:", event.error);
         status.textContent = `エラー: ${event.error}`;
+        isRecognizing = false;
+        updateRecButtons();
     };
 
     recognition.onend = () => {
-        status.textContent = '再起動中...';
-        recognition.start();
+        status.textContent = 'ステータス: 停止中';
+        isRecognizing = false;
+        updateRecButtons();
     };
 
-    recognition.start();
+    startBtn.addEventListener('click', () => {
+        if (!isRecognizing) {
+            recognition.start();
+        }
+    });
+    stopBtn.addEventListener('click', () => {
+        if (isRecognizing) {
+            recognition.stop();
+        }
+    });
+
+    // 初期状態
+    updateRecButtons();
 }

@@ -10,12 +10,24 @@
 </head>
 
 <body>
-    <h1> Digicre-meme</h1>
+    <h1>Digicre-meme</h1>
     <div id="status">ステータス: 停止中</div>
+    <div>
+        <button id="start-recognition">音声認識開始</button>
+        <button id="stop-recognition" disabled>音声認識停止</button>
+    </div>
     <div id="output">ここに認識されたテキストが表示されます</div>
     <div id="imagebox"></div>
 
+    <h2>Bolideと接続</h2>
+    <label for="room-id">ルームID: </label>
+    <input type="text" id="room-id" placeholder="ルームID">
+    <button id="connect-button" onclick="connectToBolide();">接続</button>
+    <button id="disconnect-button" onclick="disconnectFromBolide();">切断</button>
+    <div id="bolide-frame"></div>
+
     <script src="main.js"></script>
+    <script src="bolide.js"></script>
 </body>
 
 </html>
